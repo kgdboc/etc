@@ -1,0 +1,27 @@
+#!/bin/sh
+
+sed -i 's/enabled=1/enabled=0/' /etc/yum.repos.d/fedora-updates.repo
+sed -i 's/enabled=1/enabled=0/' /etc/yum.repos.d/fedora-updates-modular.repo
+
+dnf install -y --nogpgchec --enablerepo=google-chrome fzf terminus-fonts-console bash-completion tar zip google-chrome-stable unzip bc wget mlocate nmap-ncat tcpdump sshpass telnet proxychains-ng gdm xfce4-terminal google-noto-cjk-fonts fcitx xdotool xbindkeys wmctrl gnome-system-monitor gparted make gcc gdb global git-core man-pages indent python-unversioned-command numlockx
+
+cp my.hwdb /lib/udev/hwdb.d/
+cp fzf.sh alias.sh /etc/profile.d/
+cp setkeymap brightness /usr/local/bin/
+cp grub /etc/default/
+cp vconsole.conf /etc/
+cp -r systemd/* /etc/systemd/system/
+
+echo export PS1=\"[\\u@\\h \\w]\\\\$ \" >> /etc/bashrc
+echo set completion-ignore-case on >> /etc/inputrc
+echo set show-all-if-ambiguous on >> /etc/inputrc
+echo HISTSIZE=10000000 >> /etc/profile
+echo HISEFILESIZE=10000000 >> /etc/profile
+echo kernel.sysrq=1 >> /etc/sysctl.conf
+echo "%d ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+udevadm hwdb --update && udevadm trigger
+systemctl start setkeymap
+[[ -z $(grep -o vt.default_red= /boot/efi/EFI/fedora/grubenv) ]] && grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
+
+exit

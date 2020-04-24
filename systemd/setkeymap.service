@@ -1,0 +1,9 @@
+[Unit]
+After=getty.target
+
+[Service]
+Type=oneshot
+ExecStart=sh -c '/usr/local/bin/setkeymap'
+
+[Install]
+WantedBy=multi-user.target

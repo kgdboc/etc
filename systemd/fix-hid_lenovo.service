@@ -1,0 +1,10 @@
+[Unit]
+After=suspend.target
+
+[Service]
+Type=oneshot
+ExecStart=bash -c 'modprobe -r hid_lenovo && modprobe hid_lenovo'
+
+[Install]
+WantedBy=suspend.target
+
