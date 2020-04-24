@@ -1,0 +1,42 @@
+#!/bin/bash
+
+default_route=$(ip -4 route list 0/0)
+proxy_ip=$1
+socks_port=$2
+[[ -z "$default_route" ]] && echo does not exist default route && exit 1
+[[ -z "$proxy_ip" ]] && echo no proxy ip && exit 2
+[[ -z "$socks_port" ]] && echo no socks port && exit 3
+
+ip tuntap add dev tun0 mode tun
+ip addr add 10.0.0.2/24 dev tun0
+ip link set tun0 up
+ip route del $default_route
+route_ip=$(echo $default_route | awk '{print $3}')
+ip route add $proxy_ip via $route_ip metric 5
+ip route add default via 10.0.0.1 dev tun0 metric 6
+
+dir=/tmp/global_socks_proxy
+mkdir $dir
+
+cat > $dir/config <<EOF
+resolv_conf = $dir/proxy-resolv.conf
+socks_port = $socks_port
+EOF
+
+cat > $dir/proxy-resolv.conf <<EOF
+8.8.8.8
+8.8.4.4
+EOF
+
+cp /etc/resolv.conf $dir/resolv.conf
+
+dns-proxy $dir/config
+badvpn-tun2socks --tundev tun0 --netif-ipaddr 10.0.0.1 --netif-netmask 255.255.255.0 --socks-server-addr 127.0.0.1:$socks_port --loglevel 0
+pkill dns-proxy
+
+cp $dir/resolv.conf /etc/resolv.conf
+rm -rf $dir
+
+ip link set tun0 down
+ip tuntap del dev tun0 mode tun
+ip route add $default_route

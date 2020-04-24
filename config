@@ -7,7 +7,7 @@ dnf install -y --nogpgchec --enablerepo=google-chrome fzf terminus-fonts-console
 
 cp my.hwdb /lib/udev/hwdb.d/
 cp fzf.sh alias.sh /etc/profile.d/
-cp setkeymap brightness /usr/local/bin/
+cp setkeymap proxy brightness /usr/local/bin/
 cp grub /etc/default/
 cp vconsole.conf /etc/
 cp -r systemd/* /etc/systemd/system/
