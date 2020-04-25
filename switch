@@ -1,0 +1,33 @@
+wid=$(wmctrl -d | grep -E "[0-9]+  \*" | awk '{print $1}')
+
+current() {
+  echo "ibase=16; `wmctrl -l |  grep -E "0[xX][0-9a-fA-F]+  $wid" | grep "$1" | head -n 1 | cut -c 3-11 | tr a-z A-Z`" | bc
+}
+
+case $1 in
+translate)
+  id=$(current " - Google Chrome")
+  if [[ -z $(pgrep chrome) ]]; then
+    google-chrome --disable-device-discovery-notifications --profile-directory=Default --app-id=aoihfdfpipdcpadoofbindbbeeiejpai
+  else   
+    if [[ -z $id ]]; then
+      google-chrome-stable --new-window --disable-device-discovery-notifications --user-data-dir=/home/d/.config/google-chrome
+    fi
+    google-chrome --disable-device-discovery-notifications --profile-directory=Default --app-id=aoihfdfpipdcpadoofbindbbeeiejpai
+  fi
+  ;;
+chrome)
+  google-chrome-stable --disable-device-discovery-notifications --user-data-dir=/home/d/.config/google-chrome
+  ;;
+emacs)
+  id=$(current "d@emacs:")
+  if [[ -z $id ]] ; then
+    emacsclient -c -F "'(fullscreen . maximized)" -a=""
+  else
+    xdotool windowactivate $id
+  fi
+  ;;
+*)
+  echo "Sorry, I don't understand"
+  ;;
+esac

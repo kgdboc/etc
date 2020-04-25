@@ -20,6 +20,9 @@ echo HISEFILESIZE=10000000 >> /etc/profile
 echo kernel.sysrq=1 >> /etc/sysctl.conf
 echo "%d ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
+ln -s /usr/bin/less /usr/local/bin/l
+ln -s /usr/bin/grep /usr/local/bin/g
+
 udevadm hwdb --update && udevadm trigger
 systemctl start setkeymap
 [[ -z $(grep -o vt.default_red= /boot/efi/EFI/fedora/grubenv) ]] && grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg

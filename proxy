@@ -1,12 +1,13 @@
 #!/bin/bash
 
-default_route=$(ip -4 route list 0/0)
+default_route=$(ip -4 route list 0/0 | head -n 1)
 proxy_ip=$1
 socks_port=$2
 [[ -z "$default_route" ]] && echo does not exist default route && exit 1
-[[ -z "$proxy_ip" ]] && echo no proxy ip && exit 2
+[[ -z "$proxy_ip" ]] && echo no proxy server ip && exit 2
 [[ -z "$socks_port" ]] && echo no socks port && exit 3
 
+ip route flush default
 ip tuntap add dev tun0 mode tun
 ip addr add 10.0.0.2/24 dev tun0
 ip link set tun0 up
