@@ -1,8 +1,8 @@
 alias c=cat
 alias d=date
-alias l=less
 alias n=ncdu
 alias du="du -sh"
+alias ua="uname -a"
 alias s=systemctl
 alias fh="free -h"
 alias top="top -c"
@@ -44,3 +44,4 @@ alias dy="dnf install -y --nogpgchec"
 alias pdy="proxychains4 -q dnf install -y --nogpgchec"
 alias ds="dnf search"
 alias dp="dnf provides"
+
