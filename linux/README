@@ -1,6 +1,6 @@
 extract-useful这个程序执行一次make mrproper和make，并把这个过程中用到(被访问过)的文件拷贝到一个新的目录
 需要先将.config.mini拷贝到linux源码树目录，并需要在linux源码树目录下运行。
-注意：需要先使用strictatime模式mount内核源码树所在的分区才能统计被访问的文件，
+注意： 需要先使用strictatime模式mount内核源码树所在的分区才能统计被访问的文件，
 用法： extract-useful mini-linux 
 这会把用到的文件拷贝到mini-linux这个目录，可以在这个目录下执行make mrproper和make。
 
