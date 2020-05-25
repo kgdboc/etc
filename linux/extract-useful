@@ -1,0 +1,22 @@
+mini_linux_dir=$1
+if [[ -e "$mini_linux_dir" ]]; then
+  echo already exists "$mini_linux_dir"
+  exit 1
+fi
+current_timestamp=$(date +%s)
+sleep 1
+make mrproper
+cp .config.mini .config
+time make -j6
+act=/tmp/access_after_$current_timestamp
+bct=/tmp/birth_after_$current_timestamp
+uct=/tmp/use_after_$current_timestamp
+find . -type f | xargs stat -c "%n %X" | awk -v t=$current_timestamp '{ if($2 >= t) { print $1}}' > $act
+find . -type f | xargs stat -c "%n %W" | awk -v t=$current_timestamp '{ if($2 >= t) { print $1}}' > $bct
+comm -3 <(sort $act) <(sort $bct) > $uct
+sed -i '/\.\/\.git\//d' $uct
+mkdir "$mini_linux_dir"
+for f in $(cat $uct)
+do
+  cp --parents $f "$mini_linux_dir"
+done

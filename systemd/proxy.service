@@ -1,8 +1,0 @@
-[Unit]
-
-[Service]
-Type=forking
-ExecStart=sh -c 'python /usr/local/share/shadowsocksr/shadowsocks/local.py -c /usr/local/share/shadowsocksr/config.json -d start'
-
-[Install]
-WantedBy=multi-user.target

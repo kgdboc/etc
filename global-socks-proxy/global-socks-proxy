@@ -1,0 +1,37 @@
+#!/bin/bash
+# usage: global-socks-proxy <remote_server_ip> <local_socks_port>
+
+default_route=$(ip -4 route list 0/0 | cut -d\  -f3)
+[[ -z "$default_route" ]] && echo does not exist default route && exit 1
+[[ $(echo $default_route) =~ " " ]] && echo There are multiple default route && exit 2
+
+proxy_ip=$1
+[[ -z "$proxy_ip" ]] && echo no proxy server ip && exit 3
+
+socks_port=$2
+[[ -z "$socks_port" ]] && echo no socks port && exit 4
+
+iptables -I OUTPUT -j DROP -p tcp -s 10.0.0.2 -d $proxy_ip
+
+ip route flush default
+ip tuntap add dev tun0 mode tun
+ip addr add 10.0.0.2/24 dev tun0
+ip link set tun0 up
+ip route add $proxy_ip via $default_route metric 5
+ip route add default via 10.0.0.1 dev tun0 metric 6
+
+cp /etc/resolv.conf /tmp/resolv.conf
+echo nameserver 127.0.0.1 > /etc/resolv.conf
+dns2socks 127.0.0.1:$socks_port 8.8.8.8:53 127.0.0.1:53 /q &
+dns2socks_pid=$(echo $!)
+
+badvpn-tun2socks --tundev tun0 --netif-ipaddr 10.0.0.1 --netif-netmask 255.255.255.0 --socks-server-addr 127.0.0.1:$socks_port --loglevel 0
+
+kill -s 9 $dns2socks_pid
+cp /tmp/resolv.conf /etc/resolv.conf
+
+ip link set tun0 down
+ip tuntap del dev tun0 mode tun
+ip route add default via $default_route
+ip route del $proxy_ip via $default_route metric 5
+iptables -D OUTPUT -j DROP -p tcp -s 10.0.0.2 -d $proxy_ip

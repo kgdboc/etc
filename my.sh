@@ -3,9 +3,11 @@ alias f=find
 alias d=date
 alias du="du -sh"
 alias s=systemctl
+alias gip="geoiplookup -l"
 alias fh="free -h"
 alias cx="chmod +x"
 alias r="readlink -f"
+alias wl="wc -l"
 alias p="ps -ef | grep"
 alias em="emacsclient -c -F \"'(fullscreen . maximized)\" -a=\"\""
 
@@ -19,9 +21,9 @@ alias ur="uname -r"
 alias ia="ip a"
 alias ir="ip route"
 
-alias st="ss -nltp"
-alias su="ss -nlup"
-alias sl="ss -nltup"
+alias sst="ss -nltp"
+alias ssu="ss -nlup"
+alias ssl="ss -nltup"
 
 alias hg="history | grep"
 alias hr="history -r"
@@ -42,6 +44,7 @@ alias pb="proxychains4 -q bash"
 alias gs="git status"
 alias gd="git diff"
 alias gl="git log"
+alias gac="git add . && git commit -m u &> /dev/null"
 alias gacp="git add . && git commit -m u &> /dev/null && git push"
 
 alias dy="dnf install -y --nogpgchec"
