@@ -13,3 +13,14 @@ evdev:input:b0003v17EFp6047e0100* # thinkpad 0b47190
 evdev:input:b0003v413Cp301Ce0111* # dell wm514
  KEYBOARD_KEY_700e3=rightmeta
  KEYBOARD_KEY_70006=email
+
+evdev:input:*
+ KEYBOARD_KEY_a1=home # calc
+ KEYBOARD_KEY_90=end # |<<
+ KEYBOARD_KEY_a2=config # >||
+ KEYBOARD_KEY_99=close # >>|
+ KEYBOARD_KEY_1d=leftmeta # left ctrl
+ KEYBOARD_KEY_db=leftctrl # left meta
+ KEYBOARD_KEY_9c=leftmeta # num enter
+ KEYBOARD_KEY_45=hanja # num lock
+ 
