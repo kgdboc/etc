@@ -3,12 +3,6 @@ evdev:input:b0003v17EFp6047e0100* # thinkpad 0b47190
  KEYBOARD_KEY_700e3=leftctrl
  KEYBOARD_KEY_70046=rightctrl
  KEYBOARD_KEY_700e4=rightmeta
- KEYBOARD_KEY_ffa000f6=suspend
- KEYBOARD_KEY_c0221=print
- KEYBOARD_KEY_ffa000f8=playpause
- KEYBOARD_KEY_ffa000f1=playpause
- KEYBOARD_KEY_ffa000f9=nextsong
- KEYBOARD_KEY_ffa000fa=nextsong
 
 evdev:input:b0003v413Cp301Ce0111* # dell wm514
  KEYBOARD_KEY_700e3=rightmeta
