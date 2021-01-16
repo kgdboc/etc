@@ -1,9 +1,0 @@
-#!/usr/bin/sh
-setkeycodes e021 102 # calc -> home
-setkeycodes e010 107 # |<< -> end
-setkeycodes e022 92 # >|| -> Henkan_Mode
-setkeycodes e019 93 # >>| -> Hiragana_Katakana
-setkeycodes 1d 125 # >|| -> left ctrl -> left win
-setkeycodes e05b 29 # >|| -> left win -> left ctrl
-setkeycodes e01c 126 # >|| -> kp_enter -> right win
-setkeycodes 45 90 # num lock -> Katakana
