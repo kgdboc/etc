@@ -39,3 +39,5 @@ alias dy="dnf install -y --nogpgcheck"
 alias ds="dnf search"
 alias dp="dnf provides"
 alias pdy="proxychains4 -q dnf install -y --nogpgchec"
+
+alias tf="tail -f"
