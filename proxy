@@ -1,0 +1,18 @@
+#!/bin/bash
+
+ip=$1
+socks_port=$2
+http_port=$3
+
+[[ -z "$ip" ]] && ip=1.9
+[[ -z "$socks_port" ]] && socks_port=1080
+[[ -z "$http_port" ]] && http_port=3128
+
+socat-proxy () {
+  pkill socat
+  nohup socat TCP4-LISTEN:1080,bind=0.0.0.0,reuseaddr,fork TCP4:"192.168."$ip:$socks_port > /dev/null &
+  nohup socat TCP4-LISTEN:3128,bind=0.0.0.0,reuseaddr,fork TCP4:"192.168."$ip:$http_port > /dev/null &
+}
+
+socat-proxy
+
